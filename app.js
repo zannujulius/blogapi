@@ -3,10 +3,7 @@ const app = express();
 const PORT = 5000;
 
 app.get("/", (req, res, next) => {
-  res.json({
-    age: 23,
-    name: "julius",
-  });
+  res.send("Hello world");
 });
 
 app.listen(PORT, () => {
