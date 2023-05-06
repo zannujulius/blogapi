@@ -1,10 +1,9 @@
 const User = require("../models/user.model");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const postLogin = async (req, res, next) => {
-  // take input from the user
   const { email, password } = req.body;
-  // validate input from the user
   if (!email) {
     res.status(400).json({
       status: 400,
@@ -21,27 +20,41 @@ const postLogin = async (req, res, next) => {
     return;
   }
 
-  // check if the user already exist if exist in the database
-  const existingUser = await User.find({
+  const existingUser = await User.findOne({
     email: email,
   });
 
-  if (!existingUser.length) {
+  if (!existingUser) {
     return res.status(400).json({
       status: 400,
-      message: "User already exist please try again",
+      message: "Invalid credentials. Please try again",
     });
   }
 
-  // hash the user password
-
-  res.send("this is the login route");
+  const decryptPassword = await bcrypt.compare(password, existingUser.password);
+  if (decryptPassword) {
+    const token = jwt.sign(
+      {
+        _id: existingUser._id,
+      },
+      process.env.TOKEN_KEY_1,
+      {
+        expiresIn: "24h",
+      }
+    );
+    res.status(200).json({
+      message: "success",
+      data: { email, token: token },
+    });
+  } else {
+    res.json({
+      message: "Invalid credentials. Please try again",
+    });
+  }
 };
 
 const postSignUp = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
-
-  // validate the firstname field
   if (!firstName) {
     res.status(400).json({
       status: 400,
@@ -49,7 +62,6 @@ const postSignUp = async (req, res, next) => {
     });
     return;
   }
-  // validate the lastname field
   if (!lastName) {
     res.status(400).json({
       status: 400,
@@ -58,7 +70,6 @@ const postSignUp = async (req, res, next) => {
     return;
   }
 
-  // validate the email field
   if (!email) {
     res.status(400).json({
       status: 400,
@@ -67,7 +78,6 @@ const postSignUp = async (req, res, next) => {
     return;
   }
 
-  // validate the email field
   if (!password) {
     res.status(400).json({
       status: 400,
@@ -76,26 +86,24 @@ const postSignUp = async (req, res, next) => {
     return;
   }
 
-  const existingUser = await User.find({
+  const existingUser = await User.findOne({
     email: email,
   });
 
-  if (!existingUser) {
-    console.log(existingUser, "...this is the exsiting user");
+  if (existingUser) {
     return res.status(400).json({
       status: 400,
       message: "User already exist please try again",
     });
   }
 
-  const encyrptedPassword = await bcrypt.hash(password, 10);
+  const encyrptedPassword = await bcrypt.hash(password, 8);
   const newUser = await User.create({
     firstName,
     lastName,
     email,
     password: encyrptedPassword,
   });
-  // save the user to the database
   res.status(200).json({
     status: 200,
     message: "Profile created successfully",
