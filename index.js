@@ -1,14 +1,18 @@
-const express = require("express");
-const app = express();
+const http = require("http");
+const { mongoConnect } = require("./services/DBconnection");
+const { app } = require("./app");
 const PORT = 3000;
+require("dotenv").config();
 
-app.get("/", (req, res, next) => {
-  res.json({
-    name: "julius",
-    age: 23,
-  });
-});
+async function startServer() {
+  try {
+    await mongoConnect();
+    http.createServer({}, app).listen(process.env.PORT || PORT, () => {
+      console.log("Server is running on port " + PORT);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-app.listen(process.env.PORT || PORT, () => {
-  console.log("Server started on " + PORT);
-});
+startServer();
