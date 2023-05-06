@@ -1,0 +1,23 @@
+{
+  "name": "bloggersapi",
+  "version": "1.0.0",
+  "description": "A simple and intuitive API for bloggers",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zannujulius/blogapi.git"
+  },
+  "author": "zannujulius",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zannujulius/blogapi/issues"
+  },
+  "homepage": "https://github.com/zannujulius/blogapi#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
