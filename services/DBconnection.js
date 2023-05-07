@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// const DBString = `mongodb+srv://zannujulius14:${process.env.DB_PASSWORD}@cluster0.vflk9gz.mongodb.net/`;
-const DBString = "mongodb://localhost:27017/bloggerDB";
+const DBString = `mongodb+srv://zannujulius14:${process.env.DB_PASSWORD}@cluster0.vflk9gz.mongodb.net/`;
+// const DBString = "mongodb://localhost:27017/bloggerDB";
 const MONGO_URL = mongoose.connect(DBString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
