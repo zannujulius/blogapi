@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// const DBString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.vflk9gz.mongodb.net/`;
-const DBString = process.env.DB_LOCALSTRING;
+const DBString =
+  process.env.NODE_ENV == "production"
+    ? `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.vflk9gz.mongodb.net/`
+    : process.env.DB_LOCALSTRING;
+// const DBString = process.env.DB_LOCALSTRING;
+
 const MONGO_URL = mongoose.connect(DBString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
