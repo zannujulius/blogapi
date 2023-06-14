@@ -35,6 +35,7 @@ const postLogin = async (req, res, next) => {
   if (decryptPassword) {
     const token = jwt.sign(
       {
+        // store the user to the token
         _id: existingUser._id,
       },
       process.env.TOKEN_KEY_1,
@@ -104,6 +105,7 @@ const postSignUp = async (req, res, next) => {
     email,
     password: encyrptedPassword,
   });
+
   res.status(200).json({
     status: 200,
     message: "Profile created successfully",
