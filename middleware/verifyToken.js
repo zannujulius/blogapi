@@ -6,15 +6,15 @@ require("dotenv").config();
 const verifyToken = async (req, res, next) => {
   try {
     if (!(req.headers.authorization && req.headers.authorization.split(" "))) {
-      return res.status(403).send({
-        statusMessage: "Forbidden",
+      return res.status(401).send({
+        statusMessage: "Unauthorized",
         message: "You are not authorized.",
       });
     }
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
-      return res.status(403).send({
-        statusMessage: "Forbidden",
+      return res.status(401).send({
+        statusMessage: "Unauthorized",
         message: "You are not authorized.",
       });
     }
