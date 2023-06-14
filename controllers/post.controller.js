@@ -1,13 +1,21 @@
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
 
 // get the postss
 const fetchAllPost = async (req, res, next) => {
-  const allPost = await Post.find();
-  // remember to paginate this guy
-  return res.status(200).json({
-    message: "success",
-    data: allPost,
-  });
+  try {
+    const allPost = await Post.find();
+    const allUsers = await User.find();
+    console.log(allUsers, "//all users");
+    console.log(allPost, "all Post");
+    // remember to paginate this guy
+    return res.status(200).json({
+      message: "success",
+      data: allPost,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // add a post

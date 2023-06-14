@@ -14,8 +14,14 @@ app.use("/auth", authRoutes);
 app.use(postRoutes);
 
 app.get("/", (req, res, next) => {
-  res.json({
+  res.status(200).json({
     message: "Welcome to the blogger API",
+  });
+});
+
+app.use("*", (req, res, next) => {
+  res.status(404).json({
+    message: `${req.url}: not found. Please try again.`,
   });
 });
 
