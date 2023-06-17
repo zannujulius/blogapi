@@ -14,7 +14,7 @@ app.use(express.static("uploads"));
 // auth routes
 app.use("/auth", authRoutes);
 app.use(postRoutes);
-app.use("/admin", userRoutes);
+app.use(userRoutes);
 
 app.get("/", (req, res, next) => {
   res.status(200).json({
