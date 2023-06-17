@@ -31,7 +31,7 @@ const verifyToken = async (req, res, next) => {
     next();
   } catch (err) {
     if (err.message == "jwt expired") {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "error",
         data: "Invalid session",
       });

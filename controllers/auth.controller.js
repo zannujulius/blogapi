@@ -99,11 +99,13 @@ const postSignUp = async (req, res, next) => {
   }
 
   const encyrptedPassword = await bcrypt.hash(password, 8);
+  const role = "user";
   const newUser = await User.create({
     firstName,
     lastName,
     email,
     password: encyrptedPassword,
+    role,
   });
 
   res.status(200).json({

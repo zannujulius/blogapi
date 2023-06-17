@@ -1,7 +1,14 @@
 const express = require("express");
-const { fetchAllPost, addPosts } = require("../controllers/post.controller");
+const {
+  fetchAllPost,
+  addPosts,
+  editPost,
+  fetchOnePost,
+  deleteOnePost,
+} = require("../controllers/post.controller");
 const { verifyToken } = require("../middleware/verifyToken");
 const multer = require("multer");
+const isAdmin = require("../middleware/isAdmin");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -17,7 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5_000, // 5MB;
+    // fileSize: 10_000, // 10MB;
   },
   fileFilter: (req, file, cb) => {
     if (
@@ -32,10 +39,35 @@ const upload = multer({
     }
   },
 });
+
 // take author from the req user
 const router = express.Router();
 
+// get all post
 router.get("/posts", fetchAllPost);
-router.post("/posts", verifyToken, upload.single("image"), addPosts);
+
+// get one post
+router.get("/posts/:id", fetchOnePost);
+
+// add post
+router.post(
+  "/admin/posts",
+  verifyToken,
+  isAdmin,
+  upload.single("image"),
+  addPosts
+);
+
+// edit post
+router.patch(
+  "/admin/posts/:id",
+  verifyToken,
+  isAdmin,
+  upload.single("image"),
+  editPost
+);
+
+// delete post
+router.delete("/admin/posts/:id", verifyToken, isAdmin, deleteOnePost);
 
 module.exports = { postRoutes: router };
