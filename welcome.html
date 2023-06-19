@@ -27,7 +27,18 @@
           </ul>
           <div class="">Auth route</div>
           <ul>
-            <li>Post => /login</li>
+            <li>
+                <div class="">
+                    <div class="">
+                        Post => /login
+                    </div>
+                    <div class="">
+                        for subsequent request after /login append the token in the headers
+                        e.g headers: {
+                            Authorization: 'Bearer' + token
+                        }
+                    </div>
+            </li>
             <li>Post => /signup</li>
           </ul>
         </div>
