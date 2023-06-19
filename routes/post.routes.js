@@ -51,18 +51,18 @@ router.get("/posts/:id", fetchOnePost);
 
 // add post
 router.post(
-  "/admin/posts",
+  "/posts",
   verifyToken,
-  isAdmin,
+  // isAdmin,
   upload.single("image"),
   addPosts
 );
 
 // edit post
 router.patch(
-  "/admin/posts/:id",
+  "/posts/:id",
   verifyToken,
-  isAdmin,
+  // isAdmin,
   upload.single("image"),
   editPost
 );
