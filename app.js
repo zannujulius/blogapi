@@ -17,9 +17,7 @@ app.use(postRoutes);
 app.use(userRoutes);
 
 app.get("/", (req, res, next) => {
-  res.status(200).json({
-    message: "Welcome to the blogger API",
-  });
+  res.status(200).sendFile(path.join(__dirname + "/welcome.html"));
 });
 
 app.use("*", (req, res, next) => {

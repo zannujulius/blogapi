@@ -10,6 +10,7 @@ async function startServer() {
     http.createServer({}, app).listen(process.env.PORT || PORT, () => {
       // console.log(process.env.NODE_ENV);
       console.log("Server is running on port " + PORT);
+      // console.log(__dirname, process.cwd(), "///change");
     });
   } catch (err) {
     console.log(err);

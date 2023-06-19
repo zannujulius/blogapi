@@ -10,10 +10,10 @@ const {
 const router = express.Router();
 
 // admin fetch all user
-router.get("/users", verifyToken, isAdmin, getAllUsers);
+router.get("/users", verifyToken, getAllUsers);
 
 // admin fetch one user
-router.get("/user/:id", verifyToken, isAdmin, fetchOneUser);
+router.get("/user/:id", verifyToken, fetchOneUser);
 
 //edit user
 router.patch("/user/edit", verifyToken, userEditProfile);

@@ -64,7 +64,6 @@ const fetchOneUser = async (req, res, next) => {
 const userEditProfile = async (req, res, next) => {
   try {
     const { id } = req.user;
-
     const foundUser = await User.findById(id);
     if (!foundUser) {
       res.status(400).json({
