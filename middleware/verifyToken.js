@@ -20,6 +20,7 @@ const verifyToken = async (req, res, next) => {
     }
 
     const data = await jwt.verify(token, process.env.TOKEN_KEY_1);
+
     if (!data)
       return res.status(403).json({
         statusMessage: "Forbidden",

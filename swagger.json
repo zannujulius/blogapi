@@ -1,0 +1,301 @@
+{
+  "swagger": "3.0",
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Blogger API",
+    "description": "A RESTful api used to apply CRUD operations.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Zannu Juluis",
+      "email": "zannujulius14@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "schemes": ["http"],
+  "host": "localhost:5000",
+  "basePath": "/",
+  "paths": {
+    "/auth/login": {
+      "get": {
+        "summary": "Login",
+        "description": "Used to Login",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "jsonEditor": true,
+            "description": "request body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "schema": {
+              "$ref": "#/definitions/loginResponse"
+            }
+          },
+          "400": {
+            "description": "Missing request body",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "description": "This will fetch all the users on the platform",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/userResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing request body",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedResponse"
+            }
+          }
+        }
+      }
+    },
+    "/todo": {
+      "post": {
+        "summary": "Save the task",
+        "description": "Save the task",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "task object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/todos/{id}": {
+      "put": {
+        "summary": "Update the tasks",
+        "description": "Update the tasks",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "task id that needs to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "task object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "object",
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/todo/{id}": {
+      "delete": {
+        "summary": "Delete the task",
+        "description": "Delete the task",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "task id that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "userResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "__v": {
+          "type": "number"
+        }
+      }
+    },
+    "loginResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string"
+        },
+        "assignee": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "InvalidResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "statusMessage": {
+          "type": "string"
+        }
+      }
+    },
+    "UnauthorizedResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "statusMessage": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

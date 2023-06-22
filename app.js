@@ -5,6 +5,8 @@ const app = express();
 const morgan = require("morgan");
 const path = require("path");
 const { userRoutes } = require("./routes/user.routes");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -19,6 +21,8 @@ app.use(userRoutes);
 app.get("/", (req, res, next) => {
   res.status(200).sendFile(path.join(__dirname + "/welcome.html"));
 });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("*", (req, res, next) => {
   res.status(404).json({
